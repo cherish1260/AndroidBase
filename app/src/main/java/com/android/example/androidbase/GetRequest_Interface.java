@@ -5,6 +5,9 @@ import com.android.example.androidbase.model.Translation;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
+/**
+ * retroft使用
+ */
 public interface GetRequest_Interface {
     @GET("ajax.php?a=fy&f=auto&t=auto&w=hello%20world")
     Call<Translation> getCall();

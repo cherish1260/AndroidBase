@@ -99,6 +99,7 @@ public class BaseService {
                     try {
                         String result = response.body().string();
                         T baseResponse = convertObject(result, responseClz);
+                        baseResponse.setRetcode(BaseResponse.RET_CODE_SUCCESS);
                         listener.onRequestComplete(baseResponse);
                     } catch (IOException e) {
                         try {

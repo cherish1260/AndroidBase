@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void request() {
+    public void grequest() {
 
         //步骤4:创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
@@ -57,53 +57,61 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void prequest() {
+        //步骤4:创建Retrofit对象
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://fanyi.youdao.com/") // 设置 网络请求 Url
+                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
+                .build();
+
+        // 步骤5:创建 网络请求接口 的实例
+        PostRequest_Interface request = retrofit.create(PostRequest_Interface.class);
+
+        //对 发送请求 进行封装(设置需要翻译的内容)
+        Call<Translation2> call = request.getCall("I love you");
+
+        //步骤6:发送网络请求(异步)
+        call.enqueue(new Callback<Translation2>() {
+
+            //请求成功时回调
+            @Override
+            public void onResponse(Call<Translation2> call, Response<Translation2> response) {
+                // 步骤7：处理返回的数据结果：输出翻译的内容
+                System.out.println(response.body().getTranslateResult().get(0).get(0).getTgt());
+            }
+
+            //请求失败时回调
+            @Override
+            public void onFailure(Call<Translation2> call, Throwable throwable) {
+                System.out.println("请求失败");
+                System.out.println(throwable.getMessage());
+            }
+        });
+    }
+
     public void getRequest(View view) {
-//        request();
+        // grequest();
         GetParam params = new GetParam("fy", "auto", "auto", "hello world");
         MainService.getInstance().getTranslation(params, new BaseService.ServiceListener<TranslationResponse>() {
             @Override
             public void onRequestComplete(TranslationResponse response) {
-                System.out.println(response);
+                if(response.isSuccess()) {
+                    System.out.println(response);
+                }
             }
         });
     }
 
     public void postRequest(View view) {
-//        //步骤4:创建Retrofit对象
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("https://fanyi.youdao.com/") // 设置 网络请求 Url
-//                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
-//                .build();
-//
-//        // 步骤5:创建 网络请求接口 的实例
-//        PostRequest_Interface request = retrofit.create(PostRequest_Interface.class);
-//
-//        //对 发送请求 进行封装(设置需要翻译的内容)
-//        Call<Translation2> call = request.getCall("I love you");
-//
-//        //步骤6:发送网络请求(异步)
-//        call.enqueue(new Callback<Translation2>() {
-//
-//            //请求成功时回调
-//            @Override
-//            public void onResponse(Call<Translation2> call, Response<Translation2> response) {
-//                // 步骤7：处理返回的数据结果：输出翻译的内容
-//                System.out.println(response.body().getTranslateResult().get(0).get(0).getTgt());
-//            }
-//
-//            //请求失败时回调
-//            @Override
-//            public void onFailure(Call<Translation2> call, Throwable throwable) {
-//                System.out.println("请求失败");
-//                System.out.println(throwable.getMessage());
-//            }
-//        });
-
+        // prequest();
+        // 以下是使用封装好的service进行请求
         PostParam postParam = new PostParam("json", "", "", "", "", "", "", "", "", "", "", "", "hello");
         MainService.getInstance().postTranslation(postParam, new BaseService.ServiceListener<TranslationPostResponse>() {
             @Override
             public void onRequestComplete(TranslationPostResponse response) {
-                System.out.println(response);
+                if(response.isSuccess()) {
+                    System.out.println(response);
+                }
             }
         });
     }

@@ -1,6 +1,5 @@
 package com.android.example.androidbase.response;
 
-import com.android.example.androidbase.model.Translation;
 import com.android.example.androidbase.model.content;
 import com.android.example.androidbase.service.BaseResponse;
 
