@@ -9,6 +9,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
     }
     buildTypes {
         release {
@@ -31,4 +37,12 @@ dependencies {
     implementation 'io.reactivex:rxjava:1.1.0'
     implementation 'io.reactivex:rxandroid:1.1.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    implementation project(':basemodule')
+
+    if (isModule) {
+        implementation project(':modulea')
+    }
+
 }

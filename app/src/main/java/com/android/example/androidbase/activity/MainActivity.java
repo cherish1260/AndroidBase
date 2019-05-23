@@ -1,5 +1,6 @@
-package com.android.example.androidbase;
+package com.android.example.androidbase.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,23 +13,57 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.android.example.androidbase.GetRequest_Interface;
+import com.android.example.androidbase.MainService;
+import com.android.example.androidbase.PostRequest_Interface;
+import com.android.example.androidbase.R;
 import com.android.example.androidbase.model.Translation;
 import com.android.example.androidbase.model.Translation2;
-import com.android.example.androidbase.params.GetParam;
 import com.android.example.androidbase.params.PostParam;
 import com.android.example.androidbase.response.TranslationPostResponse;
-import com.android.example.androidbase.response.TranslationResponse;
 import com.android.example.androidbase.service.BaseService;
 
+@Route(path = "/app/main")
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
+    }
+
+    public void initView() {
+        Button btnJump = findViewById(R.id.btn_jump);
+        btnJump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance()
+                        .build("/app/second")
+                        .withString("from", "app/MainActivity")
+                        .navigation(MainActivity.this, 999);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case 999:
+                Toast.makeText(this, "我接收到了返回码", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
     }
 
     public void grequest() {
