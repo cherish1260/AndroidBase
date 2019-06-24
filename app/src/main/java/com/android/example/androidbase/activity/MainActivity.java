@@ -1,7 +1,6 @@
 package com.android.example.androidbase.activity;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,6 +12,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,12 +27,13 @@ import com.android.example.androidbase.PostRequest_Interface;
 import com.android.example.androidbase.R;
 import com.android.example.androidbase.model.Translation;
 import com.android.example.androidbase.model.Translation2;
+import com.android.example.androidbase.mvptest.login.view.LoginActivity;
 import com.android.example.androidbase.params.PostParam;
 import com.android.example.androidbase.response.TranslationPostResponse;
 import com.android.example.androidbase.service.BaseService;
 
 @Route(path = "/app/main")
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,22 @@ public class MainActivity extends AppCompatActivity {
                         .build("/app/second")
                         .withString("from", "app/MainActivity")
                         .navigation(MainActivity.this, 999);
+            }
+        });
+        Button btnLogin = findViewById(R.id.btn_login);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button btnWv = findViewById(R.id.btn_wv);
+        btnWv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                startActivity(intent);
             }
         });
     }
