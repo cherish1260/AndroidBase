@@ -32,6 +32,9 @@ import com.android.example.androidbase.params.PostParam;
 import com.android.example.androidbase.response.TranslationPostResponse;
 import com.android.example.androidbase.service.BaseService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @Route(path = "/app/main")
 public class MainActivity extends Activity {
 
@@ -66,6 +69,14 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button btnTest = findViewById(R.id.btn_test);
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TestViewEventActivity.class);
                 startActivity(intent);
             }
         });

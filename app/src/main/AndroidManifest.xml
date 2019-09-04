@@ -24,6 +24,7 @@
         <activity android:name=".activity.ThirdActivity"/>
         <activity android:name=".mvptest.login.view.LoginActivity"/>
         <activity android:name=".activity.WebViewActivity"/>
+        <activity android:name=".activity.TestViewEventActivity"/>
     </application>
 
 </manifest>
